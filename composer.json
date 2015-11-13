@@ -11,7 +11,7 @@
     "require": {
         "laravel/framework": "~5.0",
         "laravelcollective/html": "~5.0",
-        "sukohi/cahen": "~5.0"
+        "sukohi/cahen": "2.*"
     },
     "autoload": {
         "psr-4": {
