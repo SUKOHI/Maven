@@ -14,7 +14,7 @@ A Laravel package to manage FAQ.
 Add this package name in composer.json
 
     "require": {
-      "sukohi/maven": "1.*"
+      "sukohi/maven": "2.*"
     }
 
 Execute composer command.
@@ -45,7 +45,7 @@ And execute the next commands.
     php artisan vendor:publish
     php artisan migrate
 
-# Usage(Management page)
+# Usage (Management page)
 
 Set a route in your routes.php.
 
@@ -58,7 +58,7 @@ Set a route in your routes.php.
 Now you can access management page that Maven provides like http://YOUR-DOMAIN/maven.  
 Note: I believe that you need to authenticate in routes.php before calling `Maven::view()`.
 
-# Usage
+# Usage (Retrieve data)
 
 (in Controller)
 
