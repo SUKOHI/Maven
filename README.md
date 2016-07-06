@@ -2,6 +2,8 @@
 A Laravel package to manage FAQ.  
 (This package is for Laravel 5.2+)
 
+***[Demo](http://demo-laravel52.capilano-fw.com/maven)***
+
 !['Example'](http://i.imgur.com/eQpsIte.png)
 
 # Requirements
