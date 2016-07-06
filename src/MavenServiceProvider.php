@@ -28,6 +28,19 @@ class MavenServiceProvider extends ServiceProvider {
 		$this->publishes([
 			__DIR__.'/translations' => base_path('resources/lang/vendor/maven'),
 		], 'translations');
+
+		$this->app->singleton('command.maven:export', function ($app) {
+
+			return $app['Sukohi\Maven\Commands\MavenExportCommand'];
+
+		});
+		$this->commands('command.maven:export');
+		$this->app->singleton('command.maven:import', function ($app) {
+
+			return $app['Sukohi\Maven\Commands\MavenImportCommand'];
+
+		});
+		$this->commands('command.maven:import');
 	}
 
 	/**

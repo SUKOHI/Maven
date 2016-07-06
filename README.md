@@ -91,6 +91,21 @@ Note: I believe that you need to authenticate in routes.php before calling `Mave
     
     {!! $faqs->links() !!}
 
+# Command
+
+You can export/import faq data like so.
+
+(Export)  
+
+    php artisan maven:export
+
+* Exported file will be saved at `storage/app/maven/faq.json`.
+    
+(Import)  
+
+    php artisan maven:import
+
+
 # License
 
 This package is licensed under the MIT License.

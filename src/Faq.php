@@ -90,7 +90,15 @@ class Faq extends Model
 	public static function tagValues() {
 
 		$values = [];
-		$faqs = Faq::select('tags')->get();
+		$query = Faq::select('tags');
+
+		if(\Request::has('search_locale')) {
+
+			$query->where('locale', \Request::get('search_locale'));
+
+		}
+
+		$faqs = $query->get();
 
 		foreach ($faqs as $index => $faq) {
 
