@@ -2,7 +2,7 @@
 
 class Maven {
 
-	private $_tags, $_locales = [];
+	private $_tags, $_locales, $_unique_keys = [];
 
 	public function tag($tag) {
 
@@ -26,6 +26,19 @@ class Maven {
 		}
 
 		$this->_locales = array_unique($locale);
+		return $this;
+
+	}
+
+	public function uniqueKey($unique_key) {
+
+		if(!is_array($unique_key)) {
+
+			$unique_key = [$unique_key];
+
+		}
+
+		$this->_unique_keys = array_unique($unique_key);
 		return $this;
 
 	}
@@ -63,7 +76,35 @@ class Maven {
 
 		}
 
+		if(count($this->_unique_keys) > 0) {
+
+			$faqs->where(function($query){
+
+				foreach ($this->_unique_keys as $unique_key) {
+
+					$query->orWhere('unique_key', $unique_key);
+
+				}
+
+			});
+
+		}
+
 		return $faqs->paginate($limit);
+
+	}
+
+	public function first() {
+
+		$faqs = $this->get();
+
+		if($faqs->count() > 0) {
+
+			return $faqs[0];
+
+		}
+
+		return null;
 
 	}
 

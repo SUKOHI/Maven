@@ -74,13 +74,16 @@ Note: I believe that you need to authenticate in routes.php before calling `Mave
     $faqs = \Maven::locale('en')->get();
     $faqs = \Maven::locale(['en', 'es'])->get();
     
-    return view('YOUR-VIEW', ['faqs' => $faqs]);
-
+    // or
+    
+    $faq = \Maven::uniqueKey('952557a09ef19aae1d9e2a276db18a66')->first();
+    
 (in View)
 
     <!-- Data -->
 
     @foreach($faqs as $faq)
+        <a id="{{ $faq->unique_key }}"></a>
         {!! $faq->question !!}<br><br>
         {!! $faq->answer !!}<br><br>
         Tag: {!! implode(',', $faq->tags) !!}
