@@ -1,16 +1,15 @@
 # Maven
-A Laravel package to manage FAQ.
+A Laravel package to manage FAQ.  
+(This package is for Laravel 5.2+)
 
-!['Example'](http://i.imgur.com/8W3gPix.png)
+!['Example'](http://i.imgur.com/eQpsIte.png)
 
-Requirements
-====
+# Requirements
 
 * [LaravelCollective/html](https://github.com/LaravelCollective/html)
 * [sukohi/cahen](https://github.com/SUKOHI/Cahen)
 
-Installation
-====
+# Installation
 
 Add this package name in composer.json
 
@@ -46,30 +45,20 @@ And execute the next commands.
     php artisan vendor:publish
     php artisan migrate
 
-
-**Note: If you get errors after updating, execute the next.**
-
-    php artisan vendor:publish --force
-    php artisan migrate:rollback
-    php artisan migrate
-
-
-Usage(Management page)
-====
+# Usage(Management page)
 
 Set a route in your routes.php.
 
-    Route::match(['get', 'post'], 'maven_manage', function () {
+    Route::match(['get', 'post'], 'maven', function () {
     
-        return \Maven::manage_view();
+        return \Maven::view();
         
     });
 
-Now you can access management page that Maven provides like http://YOUR-DOMAIN/maven_manage.  
-Note: I believe that you need to authenticate in routes.php before calling `Maven::manage_view()`.
+Now you can access management page that Maven provides like http://YOUR-DOMAIN/maven.  
+Note: I believe that you need to authenticate in routes.php before calling `Maven::view()`.
 
-Usage(Retrieve Data)
-====
+# Usage
 
 (in Controller)
 
@@ -79,6 +68,11 @@ Usage(Retrieve Data)
  
     $faqs = \Maven::tag('YOUR-TAG')->get();
     $faqs = \Maven::tag(['YOUR-TAG-1', 'YOUR-TAG-2'])->get();
+    
+    // or
+    
+    $faqs = \Maven::locale('en')->get();
+    $faqs = \Maven::locale(['en', 'es'])->get();
     
     return view('YOUR-VIEW', ['faqs' => $faqs]);
 
@@ -95,11 +89,10 @@ Usage(Retrieve Data)
     
     <!-- Pager -->
     
-    {!! $faqs->render() !!}
+    {!! $faqs->links() !!}
 
-License
-====
+# License
 
 This package is licensed under the MIT License.
 
-Copyright 2015 Sukohi Kuhoh
+Copyright 2016 Sukohi Kuhoh

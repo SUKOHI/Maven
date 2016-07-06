@@ -9,8 +9,8 @@
         }
     ],
     "require": {
-        "laravel/framework": "~5.0",
-        "laravelcollective/html": "~5.0",
+        "laravel/framework": "~5.2",
+        "laravelcollective/html": "5.2.*",
         "sukohi/cahen": "2.*"
     },
     "autoload": {

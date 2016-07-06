@@ -58,7 +58,7 @@ class Faq extends Model
 
 		}
 
-		$this->attributes['tags'] = json_encode($values, JSON_UNESCAPED_UNICODE );
+		$this->attributes['tags'] = json_encode($values, JSON_UNESCAPED_UNICODE);
 
 	}
 
@@ -77,11 +77,11 @@ class Faq extends Model
 
 		for($i = 1 ; $i <= $max_sort_number ; $i++) {
 
-			$values[$i] = '#'. $i;
+			$values[$i] = '# '. $i;
 
 		}
 
-		$values[$i] = '#'. $i;
+		$values[$i] = '# '. $i;
 
 		return $values;
 

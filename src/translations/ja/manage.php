@@ -13,5 +13,10 @@ return [
 	'title' => 'Maven - FAQ管理',
 	'q_and_a' => '質問と回答',
 	'save_as_draft' => '下書きとして保存',
-	'tag_e_g' => '例） タグ１,タグ２,タグ３'
+	'tag_e_g' => '例） タグ１,タグ２,タグ３',
+	'locale' => '言語',
+	'optional' => '任意',
+	'unique_key' => 'ユニークキー',
+	'all' => '全て',
+	'clear' => 'クリア'
 ];

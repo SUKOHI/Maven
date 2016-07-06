@@ -2,7 +2,7 @@
 
 class Maven {
 
-	private $_tags = [];
+	private $_tags, $_locales = [];
 
 	public function tag($tag) {
 
@@ -12,8 +12,20 @@ class Maven {
 
 		}
 
-		$this->_tags = array_merge($this->_tags, $tag);
-		array_unique($this->_tags);
+		$this->_tags = array_unique($tag);
+		return $this;
+
+	}
+
+	public function locale($locale) {
+
+		if(!is_array($locale)) {
+
+			$locale = [$locale];
+
+		}
+
+		$this->_locales = array_unique($locale);
 		return $this;
 
 	}
@@ -37,11 +49,25 @@ class Maven {
 
 		}
 
+		if(count($this->_locales) > 0) {
+
+			$faqs->where(function($query){
+
+				foreach ($this->_locales as $locale) {
+
+					$query->orWhere('locale', $locale);
+
+				}
+
+			});
+
+		}
+
 		return $faqs->paginate($limit);
 
 	}
 
-	public function manage_view($limit = 30) {
+	public function view($limit = 30) {
 
 		$message = '';
 
@@ -62,7 +88,15 @@ class Maven {
 				$faq->question = \Request::get('question');
 				$faq->answer = \Request::get('answer');
 				$faq->tags = explode(',', \Request::get('tags'));
+				$faq->locale = \Request::get('locale');
 				$faq->draft_flag = \Request::has('draft_flag');
+
+				if(empty($faq->unique_key)) {
+
+					$faq->unique_key = md5(uniqid(rand(),1));
+
+				}
+
 				$faq->save();
 				\Cahen::move($faq)->to('sort', \Request::get('sort'));
 
@@ -91,13 +125,28 @@ class Maven {
 				'answer' => $faq->raw_answer,
 				'tags' => implode(',', $faq->tags),
 				'sort' => $faq->sort_number,
+				'locale' => $faq->locale,
 				'draft_flag' => $faq->draft_flag
 			]);
 
 		}
 
-		$faqs = Faq::orderBy('sort', 'ASC')
-					->paginate($limit);
+		$query = Faq::orderBy('sort', 'ASC');
+
+		if(\Request::has('search_locale')) {
+
+			$query->where('locale', \Request::get('search_locale'));
+
+		}
+
+		if(\Request::has('search_key')) {
+
+			$query->where('tags', 'LIKE', '%'. \Request::get('search_key') .'%');
+
+		}
+
+		$faqs = $query->paginate($limit);
+		$locales = Faq::distinct('locale')->lists('locale');
 		$sort_values = Faq::sortSelectValues();
 		$tag_values = Faq::tagValues();
 
@@ -105,7 +154,8 @@ class Maven {
 				'faqs' => $faqs,
 				'sort_values' => $sort_values,
 				'tag_values' => $tag_values,
-				'message' => $message
+				'message' => $message,
+				'locales' => $locales
 		])->render();
 
 	}

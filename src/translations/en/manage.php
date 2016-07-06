@@ -13,5 +13,10 @@ return [
 	'title' => 'Maven - Manger',
 	'q_and_a' => 'Question and Answer',
 	'save_as_draft' => 'Save as Draft',
-	'tag_e_g' => 'e.g.) tag1,tag2,tag3'
+	'tag_e_g' => 'e.g.) tag1,tag2,tag3',
+	'locale' => 'Locale',
+	'optional' => 'Optional',
+	'unique_key' => 'Unique Key',
+	'all' => 'All',
+	'clear' => 'Clear'
 ];
