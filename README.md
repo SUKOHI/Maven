@@ -60,7 +60,8 @@ Note: I believe that you need to authenticate in routes.php before calling `Mave
 After publishing, you should have `maven.php` in your config folder.  
 you can set some values in the file like the followings.
 
-(locales)  
+> locales
+
 First of all, you have only `en` locale.  
 You can add more locales if you want like so.  
 
