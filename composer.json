@@ -12,7 +12,7 @@
         "laravel/framework": "~5.2",
         "laravelcollective/html": "~5.2",
         "sukohi/cahen": "2.*",
-        "sukohi/neatness": "4.*",
+        "sukohi/neatness": "~4.0.2",
         "sukohi/smoothness": "4.*"
     },
     "autoload": {
