@@ -1,0 +1,30 @@
+<?php
+
+return [
+	'tags' => 'タグ',
+	'draft' => '下書き',
+    'question_and_answer' => '質問と回答',
+    'question' => '質問',
+    'answer' => '回答',
+	'sort' => '並び順',
+	'save' => '保存',
+	'cancel' => 'キャンセル',
+	'add' => '追加',
+	'edit' => '編集',
+	'save_as_draft' => '下書きとして保存',
+	'tag_e_g' => '例） タグ１,タグ２,タグ３',
+	'locales' => '言語',
+	'optional' => '任意',
+	'unique_key' => 'ユニークキー',
+	'all' => '全て',
+	'clear' => 'クリア',
+    'delete_confirm' => '削除します。よろしいですか？',
+    'choose_one' => '以下から選択',
+    'complete' => '完了しました。',
+    'failed' => 'エラーが発生しました。',
+    'list' => 'リスト',
+    'created' => '作成日',
+    'updated' => '更新日',
+    'item_not_found' => 'データが見つかりません。',
+    'search' => '検索'
+];

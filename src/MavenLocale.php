@@ -151,16 +151,7 @@ class MavenLocale {
 
 	public static function options() {
 
-		$options = ['' => '('. trans('maven::manage.optional') .')'];
-		$locales = self::locales();
-
-		foreach ($locales as $locale => $name) {
-
-			$options[$locale] = $locale .' - '. $name;
-
-		}
-
-		return $options;
+		return config('maven.locales');
 
 	}
 

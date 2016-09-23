@@ -1,31 +1,29 @@
 <?php namespace Sukohi\Maven;
 
+use Illuminate\Support\Facades\Storage;
+
 class Maven {
 
-	private $_tags, $_locales, $_unique_keys = [];
+	private $_tags, $_unique_keys = [];
+    private $_draft_flag = false;
+    public static $locale_path = 'maven/locale.txt';
 
-	public function tag($tag) {
+	public function tag($tags) {
 
-		if(!is_array($tag)) {
+        $this->_tags = [];
 
-			$tag = [$tag];
+        foreach ($tags as $locale => $tag) {
 
-		}
+            if(!is_array($tag)) {
 
-		$this->_tags = array_unique($tag);
-		return $this;
+                $tag = [$tag];
 
-	}
+            }
 
-	public function locale($locale) {
+            $this->_tags[$locale] = $tag;
 
-		if(!is_array($locale)) {
+	    }
 
-			$locale = [$locale];
-
-		}
-
-		$this->_locales = array_unique($locale);
 		return $this;
 
 	}
@@ -43,42 +41,50 @@ class Maven {
 
 	}
 
+	public function draft_flag($boolean) {
+
+	    $this->_draft_flag = $boolean;
+
+    }
+
 	public function get($limit = 30) {
 
-		$faqs = Faq::where('draft_flag', false)
-					->orderBy('sort', 'ASC');
+	    $query = MavenUniqueKey::with('faqs.tags')
+            ->orderBy('sort', 'asc');
+
+        if(!$this->_draft_flag) {
+
+            $query->where('draft_flag', false);
+
+        }
 
 		if(count($this->_tags) > 0) {
 
-			$faqs->where(function($query){
+		    $tag_query = MavenTag::join('maven_faqs', 'maven_tags.faq_id', '=', 'maven_faqs.id');
 
-				foreach ($this->_tags as $tag) {
+            foreach ($this->_tags as $locale => $tags) {
 
-					$query->orWhere('tags', 'LIKE', '%"'. $tag .'"%');
+                foreach ($tags as $tag) {
 
-				}
+                    $tag_query->orWhere(function($query) use($locale, $tag){
 
-			});
+                        $query->where('maven_faqs.locale', $locale)
+                            ->where('maven_tags.tag', $tag);
 
-		}
+                    });
 
-		if(count($this->_locales) > 0) {
+                }
 
-			$faqs->where(function($query){
+		    }
 
-				foreach ($this->_locales as $locale) {
-
-					$query->orWhere('locale', $locale);
-
-				}
-
-			});
+            $unique_key_ids = $tag_query->lists('maven_tags.unique_key_id');
+            $query->whereIn('id', $unique_key_ids);
 
 		}
 
 		if(count($this->_unique_keys) > 0) {
 
-			$faqs->where(function($query){
+            $query->where(function($query){
 
 				foreach ($this->_unique_keys as $unique_key) {
 
@@ -90,7 +96,7 @@ class Maven {
 
 		}
 
-		return $faqs->paginate($limit);
+		return $query->paginate($limit);
 
 	}
 
@@ -108,97 +114,90 @@ class Maven {
 
 	}
 
-	public function view($limit = 30) {
+	public function getAllTags($draft_filter_flag = true) {
 
-		$message = '';
+        $tags = [];
+        $faqs = MavenFaq::with('unique_key')
+            ->where('draft_flag', 0)
+            ->get();
 
-		if(\Request::has('remove_id')) {
+        foreach ($faqs as $faq) {
 
-			$faq = Faq::find(\Request::get('remove_id'));
-			$faq->delete();
-			$message = 'Complete!';
+            if($draft_filter_flag && $faq->unique_key->draft_flag == 1) {
 
-			$faqs = Faq::orderBy('id', 'ASC')->get();
-			\Cahen::align($faqs, 'sort');
+                continue;
 
-		} else if(\Request::has('_token')) {
+            }
 
-			if(\Request::has(['question', 'answer'])) {
+            $maven_tags = $faq->tags;
 
-				$faq = Faq::firstOrNew(['id' => \Request::get('id')]);
-				$faq->question = \Request::get('question');
-				$faq->answer = \Request::get('answer');
-				$faq->tags = explode(',', \Request::get('tags'));
-				$faq->locale = \Request::get('locale');
-				$faq->draft_flag = \Request::has('draft_flag');
+            foreach ($maven_tags as $maven_tag) {
 
-				if(empty($faq->unique_key)) {
+                if(!isset($tags[$faq->locale]) ||
+                    !in_array($maven_tag->tag, $tags[$faq->locale])) {
 
-					$faq->unique_key = md5(uniqid(rand(),1));
+                    $tags[$faq->locale][] = $maven_tag->tag;
 
-				}
+                }
 
-				$faq->save();
-				\Cahen::move($faq)->to('sort', \Request::get('sort'));
+            }
 
-				$message = 'Complete!';
-				\Request::merge([
-					'question' => '',
-					'answer' => '',
-					'tags' => '',
-					'sort' => '',
-					'draft_flag' => '',
-					'id' => '',
-				]);
+        }
 
-			} else {
+        return collect($tags);
 
-				$message = '[Error] Question and Answer are required.';
+    }
 
-			}
+	public static function route($default_locale = 'en') {
 
-		} else if(\Request::has('id')) {
+        \App::setLocale($default_locale);
 
-			$faq = Faq::find(\Request::get('id'));
+        \Route::group(['prefix' => config('maven.uri')], function() {
 
-			\Request::merge([
-				'question' => $faq->question,
-				'answer' => $faq->raw_answer,
-				'tags' => implode(',', $faq->tags),
-				'sort' => $faq->sort_number,
-				'locale' => $faq->locale,
-				'draft_flag' => $faq->draft_flag
-			]);
+            \Route::get('/', 'Maven\MavenController@index')->name('maven.index');
+            \Route::get('/create', 'Maven\MavenController@create')->name('maven.create');
+            \Route::post('/', 'Maven\MavenController@store')->name('maven.store');
+            \Route::get('/{id}/edit', 'Maven\MavenController@edit')->name('maven.edit');
+            \Route::put('/{id}', 'Maven\MavenController@update')->name('maven.update');
+            \Route::delete('/{id}', 'Maven\MavenController@destroy')->name('maven.destroy');
+            \Route::get('/{locale}', 'Maven\MavenController@locale')->name('maven.locale');
 
-		}
-
-		$query = Faq::orderBy('sort', 'ASC');
-
-		if(\Request::has('search_locale')) {
-
-			$query->where('locale', \Request::get('search_locale'));
-
-		}
-
-		if(\Request::has('search_key')) {
-
-			$query->where('tags', 'LIKE', '%'. \Request::get('search_key') .'%');
-
-		}
-
-		$faqs = $query->paginate($limit);
-		$locales = Faq::distinct('locale')->lists('locale');
-		$sort_values = Faq::sortSelectValues();
-		$tag_values = Faq::tagValues();
-
-		return view('maven::manage', [
-				'faqs' => $faqs,
-				'sort_values' => $sort_values,
-				'tag_values' => $tag_values,
-				'message' => $message,
-				'locales' => $locales
-		])->render();
+        });
 
 	}
+
+	public static function setLocale($locale) {
+
+        \Storage::put(self::$locale_path, $locale);
+
+    }
+
+	public static function getLocale() {
+
+	    $filename = self::$locale_path;
+
+	    if(Storage::exists($filename)) {
+
+	        return Storage::get($filename);
+
+        }
+
+        return \App::getLocale();
+
+    }
+
+    public static function getModel($model) {
+
+        $class_name = 'Sukohi\Maven\\'. studly_case('maven_'. $model);
+
+        if(!class_exists($class_name)) {
+
+            throw new \Exception($class_name .' does not exist.');
+
+        }
+
+        return new $class_name;
+
+    }
 
 }

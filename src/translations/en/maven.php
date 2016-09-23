@@ -1,0 +1,30 @@
+<?php
+
+return [
+	'tags' => 'Tag(s)',
+	'draft' => 'Draft',
+	'question_and_answer' => 'Question & Answer',
+	'question' => 'Question',
+	'answer' => 'Answer',
+	'sort' => 'Sort',
+	'save' => 'Save',
+	'cancel' => 'Cancel',
+	'add' => 'Add',
+	'edit' => 'Edit',
+	'save_as_draft' => 'Save as Draft',
+	'tag_e_g' => 'e.g.) tag1,tag2,tag3',
+	'locale' => 'Locale',
+	'optional' => 'Optional',
+	'unique_key' => 'Unique Key',
+	'all' => 'All',
+	'clear' => 'Clear',
+    'delete_confirm' => 'Are you sure you want to delete?',
+    'choose_one' => 'Choose One',
+    'complete' => 'Complete',
+    'failed' => 'Failed',
+    'list' => 'List',
+    'created' => 'Created',
+    'updated' => 'Updated',
+    'item_not_found' => 'Item Not Found',
+    'search' => 'Search'
+];

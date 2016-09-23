@@ -18,16 +18,24 @@ class MavenServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->loadViewsFrom(__DIR__.'/views', 'maven');
-
+        $this->publishes([
+            __DIR__.'/translations' => resource_path('lang'),
+        ], 'translations');
 		$this->publishes([
 			__DIR__.'/migrations' => database_path('migrations')
 		], 'migrations');
-
-		$this->loadTranslationsFrom(__DIR__.'translations', 'maven');
 		$this->publishes([
-			__DIR__.'/translations' => base_path('resources/lang/vendor/maven'),
-		], 'translations');
+			__DIR__.'/config/maven.php' => config_path('maven.php')
+		], 'config');
+		$this->publishes([
+			__DIR__.'/Controllers/MavenController.php' => app_path('Http/Controllers/Maven/MavenController.php')
+		], 'controllers');
+		$this->publishes([
+			__DIR__.'/views' => resource_path('views/maven')
+		], 'views');
+		$this->publishes([
+			__DIR__.'/Requests' => app_path('Http/Requests')
+		], 'requests');
 
 		$this->app->singleton('command.maven:export', function ($app) {
 
@@ -41,6 +49,7 @@ class MavenServiceProvider extends ServiceProvider {
 
 		});
 		$this->commands('command.maven:import');
+
 	}
 
 	/**

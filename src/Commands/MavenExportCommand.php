@@ -38,27 +38,21 @@ class MavenExportCommand extends Command
      */
     public function handle()
     {
-        $faqs = \DB::table('faqs')->select(
-			'question',
-			'answer',
-			'sort',
-			'tags',
-			'locale',
-			'unique_key',
-			'draft_flag',
-			'created_at',
-			'updated_at'
-		)->get();
+        $tables = ['maven_faqs', 'maven_tags', 'maven_unique_keys'];
 
-		if(count($faqs) > 0) {
+        foreach ($tables as $table) {
 
-			$json = json_encode($faqs);
-			\Storage::put('maven/faq.json', $json);
-			$this->info('Done.');
-			die();
+            $values = \DB::table($table)->get();
 
-		}
+            if(count($values)) {
 
-		$this->error('Data not found.');
+                $json = json_encode($values);
+                \Storage::put('maven/'. $table .'.json', $json);
+                $this->info('"'.$table .'" exported!');
+
+            }
+
+        }
+
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Sukohi\Maven\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 use Sukohi\Maven\Faq;
 
 class MavenImportCommand extends Command
@@ -38,30 +40,35 @@ class MavenImportCommand extends Command
      */
     public function handle()
     {
-		Faq::truncate();
-		
-		$json = \Storage::get('maven/faq.json');
-		$items = json_decode($json, true);
+        $tables = ['maven_faqs', 'maven_tags', 'maven_unique_keys'];
+        $dt = Carbon::now();
 
-		if(!empty($items)) {
+        foreach ($tables as $table) {
 
-			foreach ($items as $index => $item) {
+            \DB::table($table)->truncate();
+            $json = Storage::get('maven/'. $table .'.json');
 
-				$faq = new Faq();
-				$faq->question = $item['question'];
-				$faq->answer = $item['answer'];
-				$faq->sort = $item['sort'];
-				$faq->tags = json_decode($item['tags'], true);
-				$faq->locale = $item['locale'];
-				$faq->unique_key = $item['unique_key'];
-				$faq->draft_flag = $item['draft_flag'];
-				$faq->created_at = $item['created_at'];
-				$faq->updated_at = $item['updated_at'];
-				$faq->save();
+            if(!empty($json)) {
 
-			}
+                $json_data = json_decode($json, true);
 
-		}
+                if(count($json_data) > 0) {
+
+                    foreach ($json_data as $json_values) {
+
+                        $json_values['created_at'] = $dt;
+                        $json_values['updated_at'] = $dt;
+                        \DB::table($table)->insert($json_values);
+
+                    }
+
+                }
+
+                $this->info('"'.$table .'" imported!');
+
+            }
+
+        }
 
     }
 }
