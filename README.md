@@ -124,10 +124,8 @@ You can change maximum records per page.
 
 * Tag(s)  
 
-    
     $faqs = \Maven::tag('YOUR-TAG')->get();
     $faqs = \Maven::tag(['YOUR-TAG-1', 'YOUR-TAG-2'])->get();
-    
     
 * Unique Key  
 
