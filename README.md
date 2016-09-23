@@ -56,7 +56,7 @@ Set `Maven::route()` in your `routes.php`.
 Now you can access to `http(s)://YOUR-DOMAIN/admin/maven. `   
 Note: I believe that you need to authenticate in routes.php before calling `Maven::route()` using middleware or something.
 
-[Config]  
+**[Config]**  
 After publishing, you should have `maven.php` in your config folder.  
 you can set some values in the file like the followings.
 
@@ -93,7 +93,7 @@ You can change maximum records per page.
 
 # Usage (Retrieve data)
 
-[Basic Way]  
+**[Basic Way]**  
 
     $faqs = \Maven::get();
     
@@ -120,7 +120,7 @@ You can change maximum records per page.
 
     }
     
-[Filtering]
+**[Filtering]**
 
 **Tag(s)**
     
@@ -168,13 +168,13 @@ In order to get model instance of this package, you can use `getModel()`.
 
 You can two commands for export/import.
 
-[Export]  
+**[Export]**  
 
     php artisan maven:export
 
 * Exported file is located at `storage/app/maven/maven_faqs.json`, `storage/app/maven/maven_tags.json` and `storage/app/maven/maven_unique_keys.json`.
     
-[Import]  
+**[Import]**  
 
     php artisan maven:import
 
