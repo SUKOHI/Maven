@@ -61,10 +61,11 @@ After publishing, you should have `maven.php` in your config folder.
 you can set some values in the file like the followings.
 
 * locales  
+
 First of all, you have only `en` locale.  
 You can add more locales if you want like so.  
 
-
+    
     'locales' => [
         'en' => 'English',
         'ja' => 'Japanese',
@@ -82,10 +83,12 @@ You can add more locales if you want like so.
     // The keys and values refer locale symbols and language names.
 
 * URI  
+
 The default value is `admin/maven`.  
 So `http(s)://YOUR-DOMAIN/admin/maven` is the URL for managing FAQs.
     
 * Per Page  
+
 You can change maximum records per page.
 
 # Usage (Retrieve data)
