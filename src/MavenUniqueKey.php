@@ -20,6 +20,7 @@ class MavenUniqueKey extends Model
     ];
     protected $neatness = [
         'default' => ['sort', 'asc'],
+        'labels' => [],
         'columns' => [
             'sort' => 'sort',
             'created' => 'created_at',
