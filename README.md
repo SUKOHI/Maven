@@ -60,8 +60,7 @@ Note: I believe that you need to authenticate in routes.php before calling `Mave
 After publishing, you should have `maven.php` in your config folder.  
 you can set some values in the file like the followings.
 
-1. locales
-
+(locales)  
 First of all, you have only `en` locale.  
 You can add more locales if you want like so.  
 
@@ -82,13 +81,11 @@ You can add more locales if you want like so.
     
     // The keys and values refer locale symbols and language names.
 
-2. URI  
-
+(URI)  
 The default value is `admin/maven`.  
 So `http(s)://YOUR-DOMAIN/admin/maven` is the URL for managing FAQs.
     
-3. Per Page  
-
+(Per Page)  
 You can change maximum records per page.
 
 # Usage (Retrieve data)
@@ -122,15 +119,13 @@ You can change maximum records per page.
     
 [Filtering]
 
-* Tag(s)
-
+(Tag(s))  
     
     $faqs = \Maven::tag('YOUR-TAG')->get();
     $faqs = \Maven::tag(['YOUR-TAG-1', 'YOUR-TAG-2'])->get();
     
 
-* Unique Key
-
+(Unique Key)
     
     $faq = \Maven::uniqueKey('952557a09ef19aae1d9e2a276db18a66')->first();
     
@@ -142,14 +137,11 @@ You can change maximum records per page.
     ])->get();
     
     
-* Pagination 
-    
+(Pagination)
     
     {!! $faqs->links() !!}
     
-
-* All Tag(s)  
-
+(All Tag(s))
     
     $tags = \Maven::getAllTags();
     
@@ -157,13 +149,10 @@ You can change maximum records per page.
     
     $tags = \Maven::getAllTags($draft_filter_flag = true);
     
-
 In this case, if you'd like to get `en` tag(s), you should call like so.
-
     
     $english_tags = $tags['en'];
     
-
 # Model Instance
 
 In order to get model instance of this package, you can use `getModel()`.
