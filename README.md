@@ -157,8 +157,10 @@ You can change maximum records per page.
     
     $tags = \Maven::getAllTags($draft_filter_flag = true);
     
+
 In this case, if you'd like to get `en` tag(s), you should call like so.
 
+    
     $english_tags = $tags['en'];
     
 
