@@ -2,7 +2,7 @@
 A Laravel package to manage FAQ.  
 (This package is for Laravel 5.2+)
 
-***[Demo](http://demo-laravel52.capilano-fw.com/maven)***
+***[Demo](http://demo-laravel52.capilano-fw.com/admin/maven)***
 
 !['Example'](http://i.imgur.com/uMsZAxp.png)
 
