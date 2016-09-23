@@ -124,13 +124,14 @@ You can change maximum records per page.
 
 * Tag(s)  
 
-
+    
     $faqs = \Maven::tag('YOUR-TAG')->get();
     $faqs = \Maven::tag(['YOUR-TAG-1', 'YOUR-TAG-2'])->get();
     
+    
 * Unique Key  
 
-
+    
     $faq = \Maven::uniqueKey('952557a09ef19aae1d9e2a276db18a66')->first();
     
     // or 
@@ -145,6 +146,7 @@ You can change maximum records per page.
     
     
     {!! $faqs->links() !!}
+    
 
 * All Tag(s)  
 
