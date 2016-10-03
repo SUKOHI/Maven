@@ -124,9 +124,18 @@ You can change maximum records per page.
 
 **Tag(s)**
     
-    $faqs = \Maven::tag('YOUR-TAG')->get();
-    $faqs = \Maven::tag(['YOUR-TAG-1', 'YOUR-TAG-2'])->get();
+    $faqs = \Maven::tag([
+        'en' => 'YOUR-TAG'
+    ])->get();
     
+    // or
+    
+    $faqs = \Maven::tag([
+        'en' => ['YOUR-TAG', 'YOUR-TAG'],
+        'ja' => 'タグ'
+    ])->get();
+    
+([Raminsadeghi](https://github.com/Raminsadeghi) indecated an error here for me. Thank you for kind of you!)
 
 **Unique Key**
     
