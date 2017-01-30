@@ -59,10 +59,11 @@ class MavenServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['maven'] = $this->app->share(function($app)
-		{
-			return new Maven;
-		});
+        $this->app->singleton('maven', function(){
+
+            return new Maven;
+
+        });
 	}
 
 	/**
