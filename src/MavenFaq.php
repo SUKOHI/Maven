@@ -63,7 +63,7 @@ class MavenFaq extends Model
 
 	public function getTagStringAttribute() {
 
-	    $tags = $this->tags->lists('tag');
+	    $tags = $this->tags->pluck('tag');
         return $tags->implode(',');
 
     }

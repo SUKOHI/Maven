@@ -22,7 +22,7 @@ class CreateMavenFaqsTable extends Migration
             $table->text('question');
             $table->text('answer');
             $table->string('locale');
-            $table->boolean('draft_flag');
+            $table->boolean('draft_flag')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

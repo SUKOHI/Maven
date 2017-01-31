@@ -68,7 +68,7 @@ class MavenUniqueKey extends Model
 
         })
         ->where('locale', Maven::getLocale())
-        ->lists('unique_key_id');
+        ->pluck('unique_key_id');
 
         return $query->whereIn('id', $unique_key_ids);
 
@@ -76,7 +76,7 @@ class MavenUniqueKey extends Model
 
     public function scopeFilterTag($query, $value) {
 
-        $unique_key_id = MavenTag::where('tag', 'LIKE', '%'. $value .'%')->lists('unique_key_id');
+        $unique_key_id = MavenTag::where('tag', 'LIKE', '%'. $value .'%')->pluck('unique_key_id');
         return $query->whereIn('id', $unique_key_id);
 
     }

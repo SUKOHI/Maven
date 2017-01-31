@@ -77,7 +77,7 @@ class Maven {
 
 		    }
 
-            $unique_key_ids = $tag_query->lists('maven_tags.unique_key_id');
+            $unique_key_ids = $tag_query->pluck('maven_tags.unique_key_id');
             $query->whereIn('id', $unique_key_ids);
 
 		}

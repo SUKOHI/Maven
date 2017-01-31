@@ -1,6 +1,6 @@
 # Maven
 A Laravel package to manage FAQ.  
-(This package is for Laravel 5.2+)
+(This package is for Laravel 5.3+)
 
 ***[Demo](http://demo-laravel52.capilano-fw.com/admin/maven)***
 
@@ -17,7 +17,7 @@ A Laravel package to manage FAQ.
 
 Execute the next command.
 
-    composer require sukohi/maven:3.*
+    composer require sukohi/maven:4.*
 
 Set the service providers in app.php
 

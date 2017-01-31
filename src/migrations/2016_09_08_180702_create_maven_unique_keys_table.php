@@ -17,7 +17,7 @@ class CreateMavenUniqueKeysTable extends Migration
             $table->increments('id');
             $table->integer('sort');
             $table->string('unique_key');
-            $table->boolean('draft_flag');
+            $table->boolean('draft_flag')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
