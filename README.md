@@ -187,6 +187,9 @@ You can two commands for export/import.
 
     php artisan maven:import
 
+# Contributor
+
+[PapaDragonov](https://github.com/PapaDragonov)
 
 # License
 
