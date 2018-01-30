@@ -86,7 +86,9 @@ class MavenUniqueKey extends Model
     public function getFaq($locale) {
 
         $faqs = $this->faqs;
-        return $faqs->firstWhere('locale', $locale);
+        return $faqs->first(function($faq) use($locale){
+            return $faq->locale == $locale;
+        });
         
     }
 
